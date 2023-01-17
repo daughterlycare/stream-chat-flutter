@@ -106,6 +106,7 @@ class StreamMessageWidget extends StatefulWidget {
     this.onQuotedMessageTap,
     this.customActions = const [],
     this.onAttachmentTap,
+    this.onFileAttachmentTap,
     @Deprecated('''
     Use [bottomRowBuilderWithDefaultWidget] instead.
     Will be removed in the next major version.
@@ -293,11 +294,15 @@ class StreamMessageWidget extends StatefulWidget {
                           minWidth: 400,
                           maxHeight: mediaQueryData.size.height * 0.3,
                         ),
-                        onAttachmentTap: onAttachmentTap != null
+                        onAttachmentTap: onFileAttachmentTap != null
                             ? () {
-                                onAttachmentTap(message, attachment);
+                                onFileAttachmentTap(message, attachment);
                               }
-                            : null,
+                            : onAttachmentTap != null
+                                ? () {
+                                    onAttachmentTap(message, attachment);
+                                  }
+                                : null,
                         trailing: showSaveAction ? null : const SizedBox.shrink(),
                       ),
                       attachmentShape: border,
@@ -571,6 +576,9 @@ class StreamMessageWidget extends StatefulWidget {
   /// {@macro onMessageWidgetAttachmentTap}
   final OnMessageWidgetAttachmentTap? onAttachmentTap;
 
+  ///
+  final OnMessageWidgetAttachmentTap? onFileAttachmentTap;
+
   /// Size of the image attachment thumbnail.
   final Size imageAttachmentThumbnailSize;
 
@@ -672,6 +680,7 @@ class StreamMessageWidget extends StatefulWidget {
     void Function(Message)? onMessageTap,
     List<StreamMessageAction>? customActions,
     void Function(Message message, Attachment attachment)? onAttachmentTap,
+    void Function(Message message, Attachment attachment)? onFileAttachmentTap,
     Widget Function(BuildContext, User)? userAvatarBuilder,
     Size? imageAttachmentThumbnailSize,
     String? imageAttachmentThumbnailResizeType,
@@ -754,6 +763,7 @@ class StreamMessageWidget extends StatefulWidget {
       onMessageTap: onMessageTap ?? this.onMessageTap,
       customActions: customActions ?? this.customActions,
       onAttachmentTap: onAttachmentTap ?? this.onAttachmentTap,
+      onFileAttachmentTap: onFileAttachmentTap ?? this.onFileAttachmentTap,
       userAvatarBuilder: userAvatarBuilder ?? this.userAvatarBuilder,
       imageAttachmentThumbnailSize: imageAttachmentThumbnailSize ?? this.imageAttachmentThumbnailSize,
       imageAttachmentThumbnailResizeType: imageAttachmentThumbnailResizeType ?? this.imageAttachmentThumbnailResizeType,
