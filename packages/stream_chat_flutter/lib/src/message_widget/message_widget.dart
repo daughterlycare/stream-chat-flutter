@@ -298,6 +298,7 @@ class StreamMessageWidget extends StatefulWidget {
                                 onAttachmentTap(message, attachment);
                               }
                             : null,
+                        trailing: showSaveAction ? null : const SizedBox.shrink(),
                       ),
                       attachmentShape: border,
                     );
