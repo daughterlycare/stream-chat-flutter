@@ -129,13 +129,18 @@ class StreamUserAvatar extends StatelessWidget {
         ),
       );
     }
+
+    final isAway = user.extraData['awayness'] == true;
+
+    final indicatorColor = user.online && !isAway ? streamChatTheme.colorTheme.accentInfo : Colors.grey;
+
     return GestureDetector(
       onTap: onTap != null ? () => onTap!(user) : null,
       onLongPress: onLongPress != null ? () => onLongPress!(user) : null,
       child: Stack(
         children: <Widget>[
           avatar,
-          if (showOnlineStatus && user.online)
+          if (showOnlineStatus)
             Positioned.fill(
               child: Align(
                 alignment: onlineIndicatorAlignment,
@@ -151,7 +156,7 @@ class StreamUserAvatar extends StatelessWidget {
                         ),
                     child: Material(
                       shape: const CircleBorder(),
-                      color: streamChatTheme.colorTheme.accentInfo,
+                      color: indicatorColor,
                     ),
                   ),
                 ),
