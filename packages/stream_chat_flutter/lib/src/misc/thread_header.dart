@@ -151,9 +151,9 @@ class StreamThreadHeader extends StatelessWidget
       automaticallyImplyLeading: false,
       toolbarTextStyle: theme.textTheme.bodyText2,
       titleTextStyle: theme.textTheme.headline6,
-      systemOverlayStyle: theme.brightness == Brightness.dark
-          ? SystemUiOverlayStyle.light
-          : SystemUiOverlayStyle.dark,
+      // systemOverlayStyle: theme.brightness == Brightness.dark
+      //     ? SystemUiOverlayStyle.light
+      //     : SystemUiOverlayStyle.dark,
       elevation: elevation,
       leading: leading ??
           (showBackButton
