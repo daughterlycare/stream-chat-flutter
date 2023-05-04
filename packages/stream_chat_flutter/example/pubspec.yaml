@@ -30,10 +30,10 @@ dependencies:
   responsive_builder: ^0.4.2
   stream_chat_flutter: 
     path: ../
-  stream_chat_localizations: 
-    path: ../../stream_chat_localizations
-  stream_chat_persistence: 
-    path: ../../stream_chat_persistence
+  # stream_chat_localizations: 
+  #   path: ../../stream_chat_localizations
+  # stream_chat_persistence: 
+  #   path: ../../stream_chat_persistence
 
 dev_dependencies:
   flutter_test:
