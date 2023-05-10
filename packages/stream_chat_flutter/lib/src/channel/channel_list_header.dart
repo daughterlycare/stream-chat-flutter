@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
@@ -37,8 +36,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 /// the [StreamChannelListHeaderThemeData] property. Modify it to change the
 /// widget's appearance.
 /// {@endtemplate}
-class StreamChannelListHeader extends StatelessWidget
-    implements PreferredSizeWidget {
+class StreamChannelListHeader extends StatelessWidget implements PreferredSizeWidget {
   /// {@macro streamChannelListHeader}
   const StreamChannelListHeader({
     super.key,
@@ -124,21 +122,19 @@ class StreamChannelListHeader extends StatelessWidget
         }
 
         final chatThemeData = StreamChatTheme.of(context);
-        final channelListHeaderThemeData =
-            StreamChannelListHeaderTheme.of(context);
+        final channelListHeaderThemeData = StreamChannelListHeaderTheme.of(context);
         final theme = Theme.of(context);
         return StreamInfoTile(
           showMessage: showConnectionStateTile && showStatus,
           message: statusString,
           child: AppBar(
-            toolbarTextStyle: theme.textTheme.bodyText2,
-            titleTextStyle: theme.textTheme.headline6,
+            toolbarTextStyle: theme.textTheme.bodyMedium,
+            titleTextStyle: theme.textTheme.titleLarge,
             // systemOverlayStyle: theme.brightness == Brightness.dark
             //     ? SystemUiOverlayStyle.light
             //     : SystemUiOverlayStyle.dark,
             elevation: elevation,
-            backgroundColor:
-                backgroundColor ?? channelListHeaderThemeData.color,
+            backgroundColor: backgroundColor ?? channelListHeaderThemeData.color,
             centerTitle: centerTitle,
             leading: leading ??
                 Center(
@@ -151,10 +147,8 @@ class StreamChannelListHeader extends StatelessWidget
                                 preNavigationCallback?.call();
                                 Scaffold.of(context).openDrawer();
                               },
-                          borderRadius: channelListHeaderThemeData
-                              .avatarTheme?.borderRadius,
-                          constraints: channelListHeaderThemeData
-                              .avatarTheme?.constraints,
+                          borderRadius: channelListHeaderThemeData.avatarTheme?.borderRadius,
+                          constraints: channelListHeaderThemeData.avatarTheme?.constraints,
                         )
                       : const Offstage(),
                 ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 /// {@template streamChannelHeader}
@@ -50,8 +49,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 /// and the [StreamChatThemeData.channelHeaderTheme] property. Modify it to
 /// change the widget's appearance.
 /// {@endtemplate}
-class StreamChannelHeader extends StatelessWidget
-    implements PreferredSizeWidget {
+class StreamChannelHeader extends StatelessWidget implements PreferredSizeWidget {
   /// {@macro streamChannelHeader}
   const StreamChannelHeader({
     super.key,
@@ -162,8 +160,8 @@ class StreamChannelHeader extends StatelessWidget
           showMessage: showConnectionStateTile && showStatus,
           message: statusString,
           child: AppBar(
-            toolbarTextStyle: theme.textTheme.bodyText2,
-            titleTextStyle: theme.textTheme.headline6,
+            toolbarTextStyle: theme.textTheme.bodyMedium,
+            titleTextStyle: theme.textTheme.titleLarge,
             // systemOverlayStyle: theme.brightness == Brightness.dark
             //     ? SystemUiOverlayStyle.light
             //     : SystemUiOverlayStyle.dark,
@@ -177,10 +175,8 @@ class StreamChannelHeader extends StatelessWidget
                     child: Center(
                       child: StreamChannelAvatar(
                         channel: channel,
-                        borderRadius:
-                            channelHeaderTheme.avatarTheme?.borderRadius,
-                        constraints:
-                            channelHeaderTheme.avatarTheme?.constraints,
+                        borderRadius: channelHeaderTheme.avatarTheme?.borderRadius,
+                        constraints: channelHeaderTheme.avatarTheme?.constraints,
                         onTap: onImageTap,
                       ),
                     ),
@@ -193,9 +189,7 @@ class StreamChannelHeader extends StatelessWidget
                 height: preferredSize.height,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: effectiveCenterTitle
-                      ? CrossAxisAlignment.center
-                      : CrossAxisAlignment.stretch,
+                  crossAxisAlignment: effectiveCenterTitle ? CrossAxisAlignment.center : CrossAxisAlignment.stretch,
                   children: <Widget>[
                     title ??
                         StreamChannelName(

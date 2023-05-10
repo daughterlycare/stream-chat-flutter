@@ -364,7 +364,6 @@ class _UrlAttachment extends StatelessWidget {
 class _VideoAttachmentThumbnail extends StatefulWidget {
   const _VideoAttachmentThumbnail({
     required this.attachment,
-    this.httpHeaders,
   });
 
   final Attachment attachment;

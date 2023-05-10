@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:stream_chat_flutter/src/attachment_actions_modal/attachment_actions_modal.dart';
 import 'package:stream_chat_flutter/src/misc/stream_svg_icon.dart';
 import 'package:stream_chat_flutter/src/theme/stream_chat_theme.dart';
@@ -83,8 +82,8 @@ class StreamGalleryHeader extends StatelessWidget implements PreferredSizeWidget
     final galleryHeaderThemeData = StreamGalleryHeaderTheme.of(context);
     final theme = Theme.of(context);
     return AppBar(
-      toolbarTextStyle: theme.textTheme.bodyText2,
-      titleTextStyle: theme.textTheme.headline6,
+      toolbarTextStyle: theme.textTheme.bodyMedium,
+      titleTextStyle: theme.textTheme.titleLarge,
       // systemOverlayStyle: theme.brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       elevation: elevation,
       leading: showBackButton

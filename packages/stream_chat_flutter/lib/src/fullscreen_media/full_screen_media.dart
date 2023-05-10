@@ -439,7 +439,7 @@ class VideoPackage {
     this._attachment, {
     bool showControls = false,
     bool autoInitialize = true,
-    Map<String, String>? httpHeaders = null,
+    Map<String, String>? httpHeaders,
   })  : _showControls = showControls,
         _autoInitialize = autoInitialize,
         _videoPlayerController = _attachment.localUri != null

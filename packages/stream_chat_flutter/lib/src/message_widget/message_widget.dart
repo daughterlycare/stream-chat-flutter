@@ -751,7 +751,7 @@ class StreamMessageWidget extends StatefulWidget {
       showFlagButton: showFlagButton ?? this.showFlagButton,
       showPinButton: showPinButton ?? this.showPinButton,
       showPinHighlight: showPinHighlight ?? this.showPinHighlight,
-      showMessageActionButton: showMessageAction ?? this.showMessageActionButton,
+      showMessageActionButton: showMessageAction ?? showMessageActionButton,
       showShareButton: showShareButton ?? this.showShareButton,
       showReplyAction: showReplyAction ?? this.showReplyAction,
       showSaveAction: showSaveAction ?? this.showSaveAction,

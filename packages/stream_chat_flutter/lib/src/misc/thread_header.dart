@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 /// {@template streamThreadHeader}
@@ -149,8 +148,8 @@ class StreamThreadHeader extends StatelessWidget
     final theme = Theme.of(context);
     return AppBar(
       automaticallyImplyLeading: false,
-      toolbarTextStyle: theme.textTheme.bodyText2,
-      titleTextStyle: theme.textTheme.headline6,
+      toolbarTextStyle: theme.textTheme.bodyMedium,
+      titleTextStyle: theme.textTheme.titleLarge,
       // systemOverlayStyle: theme.brightness == Brightness.dark
       //     ? SystemUiOverlayStyle.light
       //     : SystemUiOverlayStyle.dark,
