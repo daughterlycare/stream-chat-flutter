@@ -42,8 +42,7 @@ class StreamQuotedMessageWidget extends StatelessWidget {
   final int textLimit;
 
   /// Map that defines a thumbnail builder for an attachment type
-  final Map<String, QuotedMessageAttachmentThumbnailBuilder>?
-      attachmentThumbnailBuilders;
+  final Map<String, QuotedMessageAttachmentThumbnailBuilder>? attachmentThumbnailBuilders;
 
   /// Padding around the widget
   final EdgeInsetsGeometry padding;
@@ -128,25 +127,21 @@ class _QuotedMessage extends StatelessWidget {
   final Map<String, String>? httpHeaders;
 
   /// Map that defines a thumbnail builder for an attachment type
-  final Map<String, QuotedMessageAttachmentThumbnailBuilder>?
-      attachmentThumbnailBuilders;
+  final Map<String, QuotedMessageAttachmentThumbnailBuilder>? attachmentThumbnailBuilders;
 
   bool get _hasAttachments => message.attachments.isNotEmpty;
 
   bool get _containsText => message.text?.isNotEmpty == true;
 
-  bool get _containsLinkAttachment =>
-      message.attachments.any((element) => element.titleLink != null);
+  bool get _containsLinkAttachment => message.attachments.any((element) => element.titleLink != null);
 
-  bool get _isGiphy =>
-      message.attachments.any((element) => element.type == 'giphy');
+  bool get _isGiphy => message.attachments.any((element) => element.type == 'giphy');
 
   @override
   Widget build(BuildContext context) {
     final isOnlyEmoji = message.text!.isOnlyEmoji;
-    var msg = _hasAttachments && !_containsText
-        ? message.copyWith(text: message.attachments.last.title ?? '')
-        : message;
+    var msg =
+        _hasAttachments && !_containsText ? message.copyWith(text: message.attachments.last.title ?? '') : message;
     if (msg.text!.length > textLimit) {
       msg = msg.copyWith(text: '${msg.text!.substring(0, textLimit - 3)}...');
     }
@@ -204,8 +199,7 @@ class _QuotedMessage extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment:
-            reverse ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: reverse ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: reverse ? children.reversed.toList() : children,
       ),
     );
@@ -229,12 +223,10 @@ class _ParseAttachments extends StatelessWidget {
 
   final Message message;
   final StreamMessageThemeData messageTheme;
-  final Map<String, QuotedMessageAttachmentThumbnailBuilder>?
-      attachmentThumbnailBuilders;
+  final Map<String, QuotedMessageAttachmentThumbnailBuilder>? attachmentThumbnailBuilders;
   final Map<String, String>? httpHeaders;
 
-  bool get _containsLinkAttachment =>
-      message.attachments.any((element) => element.titleLink != null);
+  bool get _containsLinkAttachment => message.attachments.any((element) => element.titleLink != null);
 
   @override
   Widget build(BuildContext context) {
@@ -272,8 +264,7 @@ class _ParseAttachments extends StatelessWidget {
     );
   }
 
-  Map<String, QuotedMessageAttachmentThumbnailBuilder>
-      get _defaultAttachmentBuilder {
+  Map<String, QuotedMessageAttachmentThumbnailBuilder> get _defaultAttachmentBuilder {
     return {
       'image': (_, attachment) {
         return StreamImageAttachment(
@@ -308,11 +299,8 @@ class _ParseAttachments extends StatelessWidget {
               ),
             );
           },
-          imageUrl: attachment.thumbUrl ??
-              attachment.imageUrl ??
-              attachment.assetUrl!,
-          errorWidget: (context, url, error) =>
-              AttachmentError(constraints: BoxConstraints.loose(size)),
+          imageUrl: attachment.thumbUrl ?? attachment.imageUrl ?? attachment.assetUrl!,
+          errorWidget: (context, url, error) => AttachmentError(constraints: BoxConstraints.loose(size)),
           fit: BoxFit.cover,
         );
       },
@@ -364,6 +352,8 @@ class _UrlAttachment extends StatelessWidget {
 class _VideoAttachmentThumbnail extends StatefulWidget {
   const _VideoAttachmentThumbnail({
     required this.attachment,
+    // ignore: unused_element
+    this.httpHeaders,
   });
 
   final Attachment attachment;
@@ -371,8 +361,7 @@ class _VideoAttachmentThumbnail extends StatefulWidget {
   final Map<String, String>? httpHeaders;
 
   @override
-  _VideoAttachmentThumbnailState createState() =>
-      _VideoAttachmentThumbnailState();
+  _VideoAttachmentThumbnailState createState() => _VideoAttachmentThumbnailState();
 }
 
 class _VideoAttachmentThumbnailState extends State<_VideoAttachmentThumbnail> {
@@ -381,7 +370,8 @@ class _VideoAttachmentThumbnailState extends State<_VideoAttachmentThumbnail> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.attachment.assetUrl!, httpHeaders: widget.httpHeaders ?? <String, String>{})
+    _controller = VideoPlayerController.network(widget.attachment.assetUrl!,
+        httpHeaders: widget.httpHeaders ?? <String, String>{})
       ..initialize().then((_) {
         // ignore: no-empty-block
         setState(() {}); //when your thumbnail will show.
@@ -399,9 +389,7 @@ class _VideoAttachmentThumbnailState extends State<_VideoAttachmentThumbnail> {
     return SizedBox(
       height: 32,
       width: 32,
-      child: _controller.value.isInitialized
-          ? VideoPlayer(_controller)
-          : const CircularProgressIndicator(),
+      child: _controller.value.isInitialized ? VideoPlayer(_controller) : const CircularProgressIndicator(),
     );
   }
 }
