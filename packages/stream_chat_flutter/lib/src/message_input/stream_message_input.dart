@@ -601,7 +601,11 @@ class StreamMessageInputState extends State<StreamMessageInput>
 
   Widget _buildSendButton(BuildContext context) {
     if (widget.sendButtonBuilder != null) {
-      return widget.sendButtonBuilder!(context, _effectiveController);
+      return widget.sendButtonBuilder!(
+        context,
+        _effectiveController,
+        sendMessage,
+      );
     }
 
     return StreamMessageSendButton(

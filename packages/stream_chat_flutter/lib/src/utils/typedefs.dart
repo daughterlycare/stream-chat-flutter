@@ -354,6 +354,7 @@ typedef OnScrollToBottom = Function(int unreadCount);
 typedef MessageRelatedBuilder = Widget Function(
   BuildContext context,
   StreamMessageInputController messageInputController,
+  Function onSendMessage,
 );
 
 /// A function that returns true if the message is valid and can be sent.
