@@ -343,7 +343,11 @@ typedef UserTapCallback = void Function(User, Widget?);
 /// {@template userItemBuilder}
 /// Builder used to create a custom [ListUserItem] from a [User]
 /// {@endtemplate}
-typedef UserItemBuilder = Widget Function(BuildContext, User, bool);
+typedef UserItemBuilder = Widget Function(
+  BuildContext context,
+  User user,
+  bool isSelected,
+);
 
 /// The action to perform when the "scroll to bottom" button is pressed
 /// within a [MessageListView].
