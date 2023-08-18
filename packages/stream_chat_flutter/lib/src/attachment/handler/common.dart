@@ -45,14 +45,13 @@ Future<String?> downloadWebOrDesktopAttachment(
     queryParameters: queryParameters,
     cancelToken: cancelToken,
     // set responseType to `bytes`
-    options: options?.copyWith(responseType: ResponseType.bytes) ??
-        Options(responseType: ResponseType.bytes),
+    options: options?.copyWith(responseType: ResponseType.bytes) ?? Options(responseType: ResponseType.bytes),
   );
 
   // Open the native file browser so the user can select the download path.
-  final path = await getSavePath(suggestedName: fileName);
+  final fileSaveLocation = await getSaveLocation(suggestedName: fileName);
 
-  if (path == null) {
+  if (fileSaveLocation == null) {
     // Operation was canceled by the user.
     return null;
   }
@@ -62,10 +61,10 @@ Future<String?> downloadWebOrDesktopAttachment(
     Uint8List.fromList(response.data!),
     mimeType: attachment.mimeType,
     name: fileName,
-    path: path,
+    path: fileSaveLocation.path,
   );
 
   // Save the file to the user's selected path.
-  await file.saveTo(path);
-  return path;
+  await file.saveTo(fileSaveLocation.path);
+  return fileSaveLocation.path;
 }
