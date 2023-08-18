@@ -93,7 +93,7 @@ class StreamChannelAvatar extends StatelessWidget {
       initialData: channel.image,
       builder: (context, channelImage) {
         Widget child = ClipRRect(
-          borderRadius: borderRadius ?? previewTheme?.borderRadius,
+          borderRadius: borderRadius ?? previewTheme?.borderRadius ?? BorderRadius.zero,
           child: Container(
             constraints: constraints ?? previewTheme?.constraints,
             decoration: BoxDecoration(color: colorTheme.accentPrimary),
@@ -120,9 +120,7 @@ class StreamChannelAvatar extends StatelessWidget {
           child = ClipRRect(
             key: const Key('selectedImage'),
             borderRadius: BorderRadius.circular(selectionThickness) +
-                (borderRadius ??
-                    previewTheme?.borderRadius ??
-                    BorderRadius.zero),
+                (borderRadius ?? previewTheme?.borderRadius ?? BorderRadius.zero),
             child: Container(
               constraints: constraints ?? previewTheme?.constraints,
               color: selectionColor ?? colorTheme.accentPrimary,
@@ -137,9 +135,7 @@ class StreamChannelAvatar extends StatelessWidget {
       },
       noDataBuilder: (context) {
         final currentUser = client.currentUser!;
-        final otherMembers = channel.state!.members
-            .where((it) => it.userId != currentUser.id)
-            .toList(growable: false);
+        final otherMembers = channel.state!.members.where((it) => it.userId != currentUser.id).toList(growable: false);
 
         // our own space, no other members
         if (otherMembers.isEmpty) {
@@ -147,7 +143,7 @@ class StreamChannelAvatar extends StatelessWidget {
             stream: client.currentUserStream.map((it) => it!),
             initialData: currentUser,
             builder: (context, user) => StreamUserAvatar(
-              borderRadius: borderRadius ?? previewTheme?.borderRadius,
+              borderRadius: borderRadius ?? previewTheme?.borderRadius ?? BorderRadius.zero,
               user: user,
               constraints: constraints ?? previewTheme?.constraints,
               onTap: onTap != null ? (_) => onTap!() : null,
@@ -170,7 +166,7 @@ class StreamChannelAvatar extends StatelessWidget {
             ),
             initialData: member,
             builder: (context, member) => StreamUserAvatar(
-              borderRadius: borderRadius ?? previewTheme?.borderRadius,
+              borderRadius: borderRadius ?? previewTheme?.borderRadius ?? BorderRadius.zero,
               user: member.user!,
               constraints: constraints ?? previewTheme?.constraints,
               onTap: onTap != null ? (_) => onTap!() : null,
@@ -185,7 +181,7 @@ class StreamChannelAvatar extends StatelessWidget {
         return StreamGroupAvatar(
           channel: channel,
           members: otherMembers,
-          borderRadius: borderRadius ?? previewTheme?.borderRadius,
+          borderRadius: borderRadius ?? previewTheme?.borderRadius ?? BorderRadius.zero,
           constraints: constraints ?? previewTheme?.constraints,
           onTap: onTap,
           selected: selected,

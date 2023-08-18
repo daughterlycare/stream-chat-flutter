@@ -73,34 +73,28 @@ class StreamUserAvatar extends StatelessWidget {
     final streamChatTheme = StreamChatTheme.of(context);
     final streamChatConfig = StreamChatConfiguration.of(context);
 
-    final placeholder =
-        this.placeholder ?? streamChatConfig.placeholderUserImage;
+    final placeholder = this.placeholder ?? streamChatConfig.placeholderUserImage;
 
     final backupGradientAvatar = ClipRRect(
-      borderRadius: borderRadius ??
-          streamChatTheme.ownMessageTheme.avatarTheme?.borderRadius,
+      borderRadius: borderRadius ?? streamChatTheme.ownMessageTheme.avatarTheme?.borderRadius ?? BorderRadius.zero,
       child: streamChatConfig.defaultUserImage(context, user),
     );
 
     Widget avatar = FittedBox(
       fit: BoxFit.cover,
       child: Container(
-        constraints: constraints ??
-            streamChatTheme.ownMessageTheme.avatarTheme?.constraints,
+        constraints: constraints ?? streamChatTheme.ownMessageTheme.avatarTheme?.constraints,
         child: hasImage
             ? CachedNetworkImage(
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
                 imageUrl: user.image!,
                 errorWidget: (context, __, ___) => backupGradientAvatar,
-                placeholder: placeholder != null
-                    ? (context, __) => placeholder(context, user)
-                    : null,
+                placeholder: placeholder != null ? (context, __) => placeholder(context, user) : null,
                 imageBuilder: (context, imageProvider) => DecoratedBox(
                   decoration: BoxDecoration(
-                    borderRadius: borderRadius ??
-                        streamChatTheme
-                            .ownMessageTheme.avatarTheme?.borderRadius,
+                    borderRadius:
+                        borderRadius ?? streamChatTheme.ownMessageTheme.avatarTheme?.borderRadius ?? BorderRadius.zero,
                     image: DecorationImage(
                       image: imageProvider,
                       fit: BoxFit.cover,
@@ -114,13 +108,10 @@ class StreamUserAvatar extends StatelessWidget {
 
     if (selected) {
       avatar = ClipRRect(
-        borderRadius: (borderRadius ??
-                streamChatTheme.ownMessageTheme.avatarTheme?.borderRadius ??
-                BorderRadius.zero) +
+        borderRadius: (borderRadius ?? streamChatTheme.ownMessageTheme.avatarTheme?.borderRadius ?? BorderRadius.zero) +
             BorderRadius.circular(selectionThickness),
         child: Container(
-          constraints: constraints ??
-              streamChatTheme.ownMessageTheme.avatarTheme?.constraints,
+          constraints: constraints ?? streamChatTheme.ownMessageTheme.avatarTheme?.constraints,
           color: selectionColor ?? streamChatTheme.colorTheme.accentPrimary,
           child: Padding(
             padding: EdgeInsets.all(selectionThickness),

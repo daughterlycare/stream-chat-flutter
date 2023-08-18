@@ -175,7 +175,7 @@ class StreamChannelHeader extends StatelessWidget implements PreferredSizeWidget
                     child: Center(
                       child: StreamChannelAvatar(
                         channel: channel,
-                        borderRadius: channelHeaderTheme.avatarTheme?.borderRadius,
+                        borderRadius: channelHeaderTheme.avatarTheme?.borderRadius ?? BorderRadius.zero,
                         constraints: channelHeaderTheme.avatarTheme?.constraints,
                         onTap: onImageTap,
                       ),

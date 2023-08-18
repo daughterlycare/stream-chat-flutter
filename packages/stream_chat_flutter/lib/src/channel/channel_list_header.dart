@@ -147,7 +147,7 @@ class StreamChannelListHeader extends StatelessWidget implements PreferredSizeWi
                                 preNavigationCallback?.call();
                                 Scaffold.of(context).openDrawer();
                               },
-                          borderRadius: channelListHeaderThemeData.avatarTheme?.borderRadius,
+                          borderRadius: channelListHeaderThemeData.avatarTheme?.borderRadius ?? BorderRadius.zero,
                           constraints: channelListHeaderThemeData.avatarTheme?.constraints,
                         )
                       : const Offstage(),

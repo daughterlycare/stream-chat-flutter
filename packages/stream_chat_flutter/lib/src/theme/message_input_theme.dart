@@ -35,19 +35,15 @@ class StreamMessageInputTheme extends InheritedTheme {
   /// final theme = MessageInputTheme.of(context);
   /// ```
   static StreamMessageInputThemeData of(BuildContext context) {
-    final messageInputTheme =
-        context.dependOnInheritedWidgetOfExactType<StreamMessageInputTheme>();
-    return messageInputTheme?.data ??
-        StreamChatTheme.of(context).messageInputTheme;
+    final messageInputTheme = context.dependOnInheritedWidgetOfExactType<StreamMessageInputTheme>();
+    return messageInputTheme?.data ?? StreamChatTheme.of(context).messageInputTheme;
   }
 
   @override
-  Widget wrap(BuildContext context, Widget child) =>
-      StreamMessageInputTheme(data: data, child: child);
+  Widget wrap(BuildContext context, Widget child) => StreamMessageInputTheme(data: data, child: child);
 
   @override
-  bool updateShouldNotify(StreamMessageInputTheme oldWidget) =>
-      data != oldWidget.data;
+  bool updateShouldNotify(StreamMessageInputTheme oldWidget) => data != oldWidget.data;
 }
 
 /// {@template messageInputThemeData}
@@ -146,13 +142,11 @@ class StreamMessageInputThemeData with Diagnosticable {
     BoxShadow? shadow,
   }) {
     return StreamMessageInputThemeData(
-      sendAnimationDuration:
-          sendAnimationDuration ?? this.sendAnimationDuration,
+      sendAnimationDuration: sendAnimationDuration ?? this.sendAnimationDuration,
       inputBackgroundColor: inputBackgroundColor ?? this.inputBackgroundColor,
       actionButtonColor: actionButtonColor ?? this.actionButtonColor,
       sendButtonColor: sendButtonColor ?? this.sendButtonColor,
-      actionButtonIdleColor:
-          actionButtonIdleColor ?? this.actionButtonIdleColor,
+      actionButtonIdleColor: actionButtonIdleColor ?? this.actionButtonIdleColor,
       expandButtonColor: expandButtonColor ?? this.expandButtonColor,
       inputTextStyle: inputTextStyle ?? this.inputTextStyle,
       sendButtonIdleColor: sendButtonIdleColor ?? this.sendButtonIdleColor,
@@ -173,23 +167,16 @@ class StreamMessageInputThemeData with Diagnosticable {
     double t,
   ) {
     return StreamMessageInputThemeData(
-      actionButtonColor:
-          Color.lerp(a.actionButtonColor, b.actionButtonColor, t),
-      actionButtonIdleColor:
-          Color.lerp(a.actionButtonIdleColor, b.actionButtonIdleColor, t),
-      activeBorderGradient:
-          Gradient.lerp(a.activeBorderGradient, b.activeBorderGradient, t),
+      actionButtonColor: Color.lerp(a.actionButtonColor, b.actionButtonColor, t),
+      actionButtonIdleColor: Color.lerp(a.actionButtonIdleColor, b.actionButtonIdleColor, t),
+      activeBorderGradient: Gradient.lerp(a.activeBorderGradient, b.activeBorderGradient, t),
       borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t),
-      expandButtonColor:
-          Color.lerp(a.expandButtonColor, b.expandButtonColor, t),
-      idleBorderGradient:
-          Gradient.lerp(a.idleBorderGradient, b.idleBorderGradient, t),
-      inputBackgroundColor:
-          Color.lerp(a.inputBackgroundColor, b.inputBackgroundColor, t),
+      expandButtonColor: Color.lerp(a.expandButtonColor, b.expandButtonColor, t),
+      idleBorderGradient: Gradient.lerp(a.idleBorderGradient, b.idleBorderGradient, t),
+      inputBackgroundColor: Color.lerp(a.inputBackgroundColor, b.inputBackgroundColor, t),
       inputTextStyle: TextStyle.lerp(a.inputTextStyle, b.inputTextStyle, t),
       sendButtonColor: Color.lerp(a.sendButtonColor, b.sendButtonColor, t),
-      sendButtonIdleColor:
-          Color.lerp(a.sendButtonIdleColor, b.sendButtonIdleColor, t),
+      sendButtonIdleColor: Color.lerp(a.sendButtonIdleColor, b.sendButtonIdleColor, t),
       sendAnimationDuration: a.sendAnimationDuration,
       inputDecoration: a.inputDecoration,
       enableSafeArea: a.enableSafeArea,
@@ -208,10 +195,8 @@ class StreamMessageInputThemeData with Diagnosticable {
       actionButtonIdleColor: other.actionButtonIdleColor,
       sendButtonColor: other.sendButtonColor,
       sendButtonIdleColor: other.sendButtonIdleColor,
-      inputTextStyle:
-          inputTextStyle?.merge(other.inputTextStyle) ?? other.inputTextStyle,
-      inputDecoration: inputDecoration?.merge(other.inputDecoration) ??
-          other.inputDecoration,
+      inputTextStyle: inputTextStyle?.merge(other.inputTextStyle) ?? other.inputTextStyle,
+      inputDecoration: inputDecoration?.merge(other.inputDecoration) ?? other.inputDecoration,
       activeBorderGradient: other.activeBorderGradient,
       idleBorderGradient: other.idleBorderGradient,
       borderRadius: other.borderRadius,
