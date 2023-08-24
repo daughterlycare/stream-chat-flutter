@@ -31,6 +31,7 @@ class StreamChannelListTile extends StatelessWidget {
     this.sendingIndicatorBuilder,
     this.selected = false,
     this.selectedTileColor,
+    this.httpHeaders,
   }) : assert(
           channel.state != null,
           'Channel ${channel.id} is not initialized',
@@ -99,6 +100,9 @@ class StreamChannelListTile extends StatelessWidget {
   /// The color of the tile in selected state.
   final Color? selectedTileColor;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   /// Creates a copy of this tile but with the given fields replaced with
   /// the new values.
   StreamChannelListTile copyWith({
@@ -117,6 +121,7 @@ class StreamChannelListTile extends StatelessWidget {
     Color? selectedTileColor,
     WidgetBuilder? unreadIndicatorBuilder,
     Widget? trailing,
+    Map<String, String>? httpHeaders,
   }) {
     return StreamChannelListTile(
       key: key ?? this.key,
@@ -128,14 +133,13 @@ class StreamChannelListTile extends StatelessWidget {
       onLongPress: onLongPress ?? this.onLongPress,
       visualDensity: visualDensity ?? this.visualDensity,
       contentPadding: contentPadding ?? this.contentPadding,
-      sendingIndicatorBuilder:
-          sendingIndicatorBuilder ?? this.sendingIndicatorBuilder,
+      sendingIndicatorBuilder: sendingIndicatorBuilder ?? this.sendingIndicatorBuilder,
       tileColor: tileColor ?? this.tileColor,
       trailing: trailing ?? this.trailing,
-      unreadIndicatorBuilder:
-          unreadIndicatorBuilder ?? this.unreadIndicatorBuilder,
+      unreadIndicatorBuilder: unreadIndicatorBuilder ?? this.unreadIndicatorBuilder,
       selected: selected ?? this.selected,
       selectedTileColor: selectedTileColor ?? this.selectedTileColor,
+      httpHeaders: httpHeaders ?? this.httpHeaders,
     );
   }
 
@@ -149,6 +153,7 @@ class StreamChannelListTile extends StatelessWidget {
     final leading = this.leading ??
         StreamChannelAvatar(
           channel: channel,
+          httpHeaders: httpHeaders,
         );
 
     final title = this.title ??
@@ -183,8 +188,7 @@ class StreamChannelListTile extends StatelessWidget {
           leading: leading,
           tileColor: tileColor,
           selected: selected,
-          selectedTileColor: selectedTileColor ??
-              StreamChatTheme.of(context).colorTheme.borders,
+          selectedTileColor: selectedTileColor ?? StreamChatTheme.of(context).colorTheme.borders,
           title: Row(
             children: [
               Expanded(child: title),
@@ -193,12 +197,10 @@ class StreamChannelListTile extends StatelessWidget {
                 initialData: channelState.members,
                 comparator: const ListEquality().equals,
                 builder: (context, members) {
-                  if (members.isEmpty ||
-                      !members.any((it) => it.user!.id == currentUser.id)) {
+                  if (members.isEmpty || !members.any((it) => it.user!.id == currentUser.id)) {
                     return const Offstage();
                   }
-                  return unreadIndicatorBuilder?.call(context) ??
-                      StreamUnreadIndicator(cid: channel.cid);
+                  return unreadIndicatorBuilder?.call(context) ?? StreamUnreadIndicator(cid: channel.cid);
                 },
               ),
             ],
@@ -220,22 +222,18 @@ class StreamChannelListTile extends StatelessWidget {
                     (m) => !m.shadowed && !m.isDeleted,
                   );
 
-                  if (lastMessage == null ||
-                      (lastMessage.user?.id != currentUser.id)) {
+                  if (lastMessage == null || (lastMessage.user?.id != currentUser.id)) {
                     return const Offstage();
                   }
 
                   return Padding(
                     padding: const EdgeInsets.only(right: 4),
-                    child:
-                        sendingIndicatorBuilder?.call(context, lastMessage) ??
-                            StreamSendingIndicator(
-                              message: lastMessage,
-                              size: channelPreviewTheme.indicatorIconSize,
-                              isMessageRead: channelState
-                                  .currentUserRead!.lastRead
-                                  .isAfter(lastMessage.createdAt),
-                            ),
+                    child: sendingIndicatorBuilder?.call(context, lastMessage) ??
+                        StreamSendingIndicator(
+                          message: lastMessage,
+                          size: channelPreviewTheme.indicatorIconSize,
+                          isMessageRead: channelState.currentUserRead!.lastRead.isAfter(lastMessage.createdAt),
+                        ),
                   );
                 },
               ),
@@ -278,13 +276,10 @@ class ChannelLastMessageDate extends StatelessWidget {
 
           final startOfDay = DateTime(now.year, now.month, now.day);
 
-          if (lastMessageAt.millisecondsSinceEpoch >=
-              startOfDay.millisecondsSinceEpoch) {
+          if (lastMessageAt.millisecondsSinceEpoch >= startOfDay.millisecondsSinceEpoch) {
             stringDate = Jiffy(lastMessageAt.toLocal()).jm;
           } else if (lastMessageAt.millisecondsSinceEpoch >=
-              startOfDay
-                  .subtract(const Duration(days: 1))
-                  .millisecondsSinceEpoch) {
+              startOfDay.subtract(const Duration(days: 1)).millisecondsSinceEpoch) {
             stringDate = context.translations.yesterdayLabel;
           } else if (startOfDay.difference(lastMessageAt).inDays < 7) {
             stringDate = Jiffy(lastMessageAt.toLocal()).EEEE;

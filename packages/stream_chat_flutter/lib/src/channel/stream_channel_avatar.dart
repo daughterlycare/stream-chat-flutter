@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
@@ -48,6 +50,7 @@ class StreamChannelAvatar extends StatelessWidget {
   StreamChannelAvatar({
     super.key,
     required this.channel,
+    this.httpHeaders,
     this.constraints,
     this.onTap,
     this.borderRadius,
@@ -80,6 +83,9 @@ class StreamChannelAvatar extends StatelessWidget {
   /// Thickness of selection image
   final double selectionThickness;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     final client = channel.client.state;
@@ -101,6 +107,7 @@ class StreamChannelAvatar extends StatelessWidget {
               onTap: onTap,
               child: CachedNetworkImage(
                 imageUrl: channelImage,
+                httpHeaders: httpHeaders,
                 errorWidget: (_, __, ___) => Center(
                   child: Text(
                     channel.name?[0] ?? '',

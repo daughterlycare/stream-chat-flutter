@@ -70,6 +70,7 @@ class StreamChannelListView extends StatelessWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
+    this.httpHeaders,
   });
 
   /// The [StreamChannelListController] used to control the list of channels.
@@ -278,6 +279,9 @@ class StreamChannelListView extends StatelessWidget {
   /// Defaults to [Clip.hardEdge].
   final Clip clipBehavior;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     return PagedValueListView<int, Channel>(
@@ -308,6 +312,7 @@ class StreamChannelListView extends StatelessWidget {
           channel: channel,
           onTap: onTap == null ? null : () => onTap(channel),
           onLongPress: onLongPress == null ? null : () => onLongPress(channel),
+          httpHeaders: httpHeaders,
         );
 
         return itemBuilder?.call(
@@ -337,8 +342,7 @@ class StreamChannelListView extends StatelessWidget {
               ),
             );
       },
-      loadMoreErrorBuilder: (context, error) =>
-          StreamScrollViewLoadMoreError.list(
+      loadMoreErrorBuilder: (context, error) => StreamScrollViewLoadMoreError.list(
         onTap: controller.retry,
         error: Text(context.translations.loadingChannelsError),
       ),

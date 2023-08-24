@@ -66,6 +66,7 @@ class StreamChannelHeader extends StatelessWidget implements PreferredSizeWidget
     this.actions,
     this.backgroundColor,
     this.elevation = 1,
+    this.httpHeaders,
   }) : preferredSize = const Size.fromHeight(kToolbarHeight);
 
   /// Whether to show the leading back button
@@ -114,6 +115,9 @@ class StreamChannelHeader extends StatelessWidget implements PreferredSizeWidget
 
   /// The elevation for this [StreamChannelHeader].
   final double elevation;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   final Size preferredSize;
@@ -178,6 +182,7 @@ class StreamChannelHeader extends StatelessWidget implements PreferredSizeWidget
                         borderRadius: channelHeaderTheme.avatarTheme?.borderRadius ?? BorderRadius.zero,
                         constraints: channelHeaderTheme.avatarTheme?.constraints,
                         onTap: onImageTap,
+                        httpHeaders: httpHeaders,
                       ),
                     ),
                   ),

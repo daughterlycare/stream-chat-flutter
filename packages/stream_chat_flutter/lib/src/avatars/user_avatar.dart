@@ -21,6 +21,7 @@ class StreamUserAvatar extends StatelessWidget {
     this.selectionColor,
     this.selectionThickness = 4,
     this.placeholder,
+    this.httpHeaders,
   });
 
   /// User whose avatar is to be displayed
@@ -67,6 +68,9 @@ class StreamUserAvatar extends StatelessWidget {
   /// {@macro placeholderUserImage}
   final PlaceholderUserImage? placeholder;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     final hasImage = user.image != null && user.image!.isNotEmpty;
@@ -91,6 +95,7 @@ class StreamUserAvatar extends StatelessWidget {
                 imageUrl: user.image!,
                 errorWidget: (context, __, ___) => backupGradientAvatar,
                 placeholder: placeholder != null ? (context, __) => placeholder(context, user) : null,
+                httpHeaders: httpHeaders,
                 imageBuilder: (context, imageProvider) => DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius:
