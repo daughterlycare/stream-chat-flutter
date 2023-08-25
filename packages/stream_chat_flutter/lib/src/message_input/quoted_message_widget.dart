@@ -84,6 +84,7 @@ class StreamQuotedMessageWidget extends StatelessWidget {
             width: 24,
           ),
           showOnlineStatus: false,
+          httpHeaders: httpHeaders,
         ),
     ];
     return MouseRegion(
@@ -302,6 +303,7 @@ class _ParseAttachments extends StatelessWidget {
           imageUrl: attachment.thumbUrl ?? attachment.imageUrl ?? attachment.assetUrl!,
           errorWidget: (context, url, error) => AttachmentError(constraints: BoxConstraints.loose(size)),
           fit: BoxFit.cover,
+          httpHeaders: httpHeaders,
         );
       },
       'file': (_, attachment) {

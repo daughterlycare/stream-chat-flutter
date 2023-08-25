@@ -16,6 +16,7 @@ class StreamGroupAvatar extends StatelessWidget {
     this.selected = false,
     this.selectionColor,
     this.selectionThickness = 4,
+    this.httpHeaders,
   });
 
   /// The channel of the avatar
@@ -44,6 +45,9 @@ class StreamGroupAvatar extends StatelessWidget {
   /// The value to use for the border thickness and padding of the
   /// selected image
   final double selectionThickness;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +97,7 @@ class StreamGroupAvatar extends StatelessWidget {
                                   showOnlineStatus: false,
                                   user: member.user!,
                                   borderRadius: BorderRadius.zero,
+                                  httpHeaders: httpHeaders,
                                 ),
                               ),
                             ),
@@ -131,6 +136,7 @@ class StreamGroupAvatar extends StatelessWidget {
                                     showOnlineStatus: false,
                                     user: member.user!,
                                     borderRadius: BorderRadius.zero,
+                                    httpHeaders: httpHeaders,
                                   ),
                                 ),
                               ),

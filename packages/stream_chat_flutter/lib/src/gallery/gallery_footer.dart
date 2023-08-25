@@ -24,6 +24,7 @@ class StreamGalleryFooter extends StatefulWidget implements PreferredSizeWidget 
     this.mediaSelectedCallBack,
     this.backgroundColor,
     this.showShareButton = false,
+    this.httpHeaders,
   }) : preferredSize = const Size.fromHeight(kToolbarHeight);
 
   /// Callback to call when pressing the back button.
@@ -53,6 +54,9 @@ class StreamGalleryFooter extends StatefulWidget implements PreferredSizeWidget 
 
   /// Show or hide the share button
   final bool showShareButton;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   _StreamGalleryFooterState createState() => _StreamGalleryFooterState();
@@ -223,6 +227,7 @@ class _StreamGalleryFooterState extends State<StreamGalleryFooter> {
                             child: CachedNetworkImage(
                               imageUrl: attachment.imageUrl ?? attachment.assetUrl ?? attachment.thumbUrl!,
                               fit: BoxFit.cover,
+                              httpHeaders: widget.httpHeaders,
                             ),
                           ),
                         ),
@@ -252,6 +257,7 @@ class _StreamGalleryFooterState extends State<StreamGalleryFooter> {
                                 user: message.user!,
                                 constraints: BoxConstraints.tight(const Size(24, 24)),
                                 showOnlineStatus: false,
+                                httpHeaders: widget.httpHeaders,
                               ),
                             ),
                           ),

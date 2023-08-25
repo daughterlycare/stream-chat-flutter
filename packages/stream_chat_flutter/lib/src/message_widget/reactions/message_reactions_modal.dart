@@ -17,6 +17,7 @@ class StreamMessageReactionsModal extends StatelessWidget {
     this.showReactions,
     this.reverse = false,
     this.onUserAvatarTap,
+    this.httpHeaders,
   });
 
   /// Widget that shows the message
@@ -37,14 +38,16 @@ class StreamMessageReactionsModal extends StatelessWidget {
   /// {@macro onUserAvatarTap}
   final void Function(User)? onUserAvatarTap;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final user = StreamChat.of(context).currentUser;
     final _userPermissions = StreamChannel.of(context).channel.ownCapabilities;
 
-    final hasReactionPermission =
-        _userPermissions.contains(PermissionType.sendReaction);
+    final hasReactionPermission = _userPermissions.contains(PermissionType.sendReaction);
 
     final roughMaxSize = size.width * 2 / 3;
     var messageTextLength = message.text!.length;
@@ -57,17 +60,12 @@ class StreamMessageReactionsModal extends StatelessWidget {
         messageTextLength = quotedMessageLength;
       }
     }
-    final roughSentenceSize = messageTextLength *
-        (messageTheme.messageTextStyle?.fontSize ?? 1) *
-        1.2;
-    final divFactor = message.attachments.isNotEmpty
-        ? 1
-        : (roughSentenceSize == 0 ? 1 : (roughSentenceSize / roughMaxSize));
+    final roughSentenceSize = messageTextLength * (messageTheme.messageTextStyle?.fontSize ?? 1) * 1.2;
+    final divFactor =
+        message.attachments.isNotEmpty ? 1 : (roughSentenceSize == 0 ? 1 : (roughSentenceSize / roughMaxSize));
 
-    final numberOfReactions =
-        StreamChatConfiguration.of(context).reactionIcons.length;
-    final shiftFactor =
-        numberOfReactions < 5 ? (5 - numberOfReactions) * 0.1 : 0.0;
+    final numberOfReactions = StreamChatConfiguration.of(context).reactionIcons.length;
+    final shiftFactor = numberOfReactions < 5 ? (5 - numberOfReactions) * 0.1 : 0.0;
 
     final child = Center(
       child: SingleChildScrollView(
@@ -77,17 +75,12 @@ class StreamMessageReactionsModal extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              if ((showReactions ?? hasReactionPermission) &&
-                  (message.status == MessageSendingStatus.sent))
+              if ((showReactions ?? hasReactionPermission) && (message.status == MessageSendingStatus.sent))
                 Align(
                   alignment: Alignment(
                     user!.id == message.user!.id
-                        ? (divFactor >= 1.0
-                            ? -0.2 - shiftFactor
-                            : (1.2 - divFactor))
-                        : (divFactor >= 1.0
-                            ? shiftFactor + 0.2
-                            : -(1.2 - divFactor)),
+                        ? (divFactor >= 1.0 ? -0.2 - shiftFactor : (1.2 - divFactor))
+                        : (divFactor >= 1.0 ? shiftFactor + 0.2 : -(1.2 - divFactor)),
                     0,
                   ),
                   child: StreamReactionPicker(
@@ -213,21 +206,19 @@ class StreamMessageReactionsModal extends StatelessWidget {
                   width: 12,
                 ),
                 borderRadius: BorderRadius.circular(32),
+                httpHeaders: httpHeaders,
               ),
               Positioned(
                 bottom: 6,
                 left: isCurrentUser ? -3 : null,
                 right: isCurrentUser ? -3 : null,
                 child: Align(
-                  alignment:
-                      reverse ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: reverse ? Alignment.centerRight : Alignment.centerLeft,
                   child: StreamReactionBubble(
                     reactions: [reaction],
                     flipTail: !reverse,
-                    borderColor:
-                        messageTheme.reactionsBorderColor ?? Colors.transparent,
-                    backgroundColor: messageTheme.reactionsBackgroundColor ??
-                        Colors.transparent,
+                    borderColor: messageTheme.reactionsBorderColor ?? Colors.transparent,
+                    backgroundColor: messageTheme.reactionsBackgroundColor ?? Colors.transparent,
                     maskColor: chatThemeData.colorTheme.barsBg,
                     tailCirclesSpacing: 1,
                     highlightOwnReactions: false,

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
@@ -157,6 +155,7 @@ class StreamChannelAvatar extends StatelessWidget {
               selected: selected,
               selectionColor: selectionColor ?? colorTheme.accentPrimary,
               selectionThickness: selectionThickness,
+              httpHeaders: httpHeaders,
             ),
           );
         }
@@ -180,6 +179,7 @@ class StreamChannelAvatar extends StatelessWidget {
               selected: selected,
               selectionColor: selectionColor ?? colorTheme.accentPrimary,
               selectionThickness: selectionThickness,
+              httpHeaders: httpHeaders,
             ),
           );
         }
@@ -194,6 +194,7 @@ class StreamChannelAvatar extends StatelessWidget {
           selected: selected,
           selectionColor: selectionColor ?? colorTheme.accentPrimary,
           selectionThickness: selectionThickness,
+          httpHeaders: httpHeaders,
         );
       },
     );

@@ -25,6 +25,7 @@ class StreamMessageSearchListTile extends StatelessWidget {
     this.tileColor,
     this.visualDensity = VisualDensity.compact,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 8),
+    this.httpHeaders,
   });
 
   /// The message response to display.
@@ -75,6 +76,9 @@ class StreamMessageSearchListTile extends StatelessWidget {
   /// If null, `EdgeInsets.symmetric(horizontal: 16.0)` is used.
   final EdgeInsetsGeometry contentPadding;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   /// Creates a copy of this tile but with the given fields replaced with
   /// the new values.
   StreamMessageSearchListTile copyWith({
@@ -117,13 +121,13 @@ class StreamMessageSearchListTile extends StatelessWidget {
             height: 40,
             width: 40,
           ),
+          httpHeaders: httpHeaders,
         );
 
     final title = this.title ??
         MessageSearchListTileTitle(
           messageResponse: messageResponse,
-          textStyle: channelPreviewTheme.titleStyle
-              ?.copyWith(overflow: TextOverflow.ellipsis),
+          textStyle: channelPreviewTheme.titleStyle?.copyWith(overflow: TextOverflow.ellipsis),
         );
 
     final subtitle = this.subtitle ??
@@ -182,9 +186,7 @@ class MessageSearchListTileTitle extends StatelessWidget {
       TextSpan(
         children: [
           TextSpan(
-            text: user.id == StreamChat.of(context).currentUser?.id
-                ? context.translations.youText
-                : user.name,
+            text: user.id == StreamChat.of(context).currentUser?.id ? context.translations.youText : user.name,
           ),
           if (channelName != null) ...[
             TextSpan(
@@ -224,9 +226,7 @@ class MessageSearchTileMessageDate extends StatelessWidget {
     final createdAt = message.createdAt;
     String stringDate;
     final now = DateTime.now();
-    if (now.year != createdAt.year ||
-        now.month != createdAt.month ||
-        now.day != createdAt.day) {
+    if (now.year != createdAt.year || now.month != createdAt.month || now.day != createdAt.day) {
       stringDate = Jiffy(createdAt.toLocal()).yMd;
     } else {
       stringDate = Jiffy(createdAt.toLocal()).jm;

@@ -24,6 +24,7 @@ class StreamUserItem extends StatelessWidget {
     this.onImageTap,
     this.selected = false,
     this.showLastOnline = true,
+    this.httpHeaders,
   });
 
   /// Function called when tapping or clicking on this widget
@@ -44,6 +45,9 @@ class StreamUserItem extends StatelessWidget {
   /// If true the [StreamUserItem] will show the last seen
   final bool showLastOnline;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     final chatThemeData = StreamChatTheme.of(context);
@@ -57,6 +61,7 @@ class StreamUserItem extends StatelessWidget {
           height: 40,
           width: 40,
         ),
+        httpHeaders: httpHeaders,
       ),
       trailing: selected
           ? StreamSvgIcon.checkSend(

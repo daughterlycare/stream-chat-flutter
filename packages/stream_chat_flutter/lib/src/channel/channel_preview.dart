@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
-import 'package:collection/collection.dart'
-    show IterableExtension, ListEquality;
+import 'package:collection/collection.dart' show IterableExtension, ListEquality;
 import 'package:contextmenu/contextmenu.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/src/context_menu_items/stream_chat_context_menu_item.dart';
@@ -37,6 +36,7 @@ class ChannelPreview extends StatelessWidget {
     this.leading,
     this.sendingIndicator,
     this.trailing,
+    this.httpHeaders,
   });
 
   /// The action to perform when this widget is tapped or clicked.
@@ -71,6 +71,9 @@ class ChannelPreview extends StatelessWidget {
   /// Widget rendering the sending indicator. By default it uses the
   /// [StreamSendingIndicator] widget.
   final Widget? sendingIndicator;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Widget build(BuildContext context) {
@@ -110,12 +113,10 @@ class ChannelPreview extends StatelessWidget {
               ),
               title: channel.isGroup
                   ? Text(
-                      context.translations
-                          .toggleMuteUnmuteGroupText(isMuted: channel.isMuted),
+                      context.translations.toggleMuteUnmuteGroupText(isMuted: channel.isMuted),
                     )
                   : Text(
-                      context.translations
-                          .toggleMuteUnmuteUserText(isMuted: channel.isMuted),
+                      context.translations.toggleMuteUnmuteUserText(isMuted: channel.isMuted),
                     ),
               onClick: () async {
                 Navigator.of(context, rootNavigator: true).pop();
@@ -123,10 +124,8 @@ class ChannelPreview extends StatelessWidget {
                   context: context,
                   builder: (_) => ConfirmationDialog(
                     titleText: channel.isGroup
-                        ? context.translations
-                            .toggleMuteUnmuteGroupText(isMuted: channel.isMuted)
-                        : context.translations
-                            .toggleMuteUnmuteUserText(isMuted: channel.isMuted),
+                        ? context.translations.toggleMuteUnmuteGroupText(isMuted: channel.isMuted)
+                        : context.translations.toggleMuteUnmuteUserText(isMuted: channel.isMuted),
                     promptText: channel.isGroup
                         ? context.translations.toggleMuteUnmuteGroupQuestion(
                             isMuted: channel.isMuted,
@@ -134,8 +133,7 @@ class ChannelPreview extends StatelessWidget {
                         : context.translations.toggleMuteUnmuteUserQuestion(
                             isMuted: channel.isMuted,
                           ),
-                    affirmativeText: context.translations
-                        .toggleMuteUnmuteAction(isMuted: channel.isMuted),
+                    affirmativeText: context.translations.toggleMuteUnmuteAction(isMuted: channel.isMuted),
                     onConfirmation: () async {
                       try {
                         if (channel.isMuted) {
@@ -173,14 +171,11 @@ class ChannelPreview extends StatelessWidget {
                     context: context,
                     builder: (_) => ConfirmationDialog(
                       titleText: context.translations.leaveGroupLabel,
-                      promptText:
-                          context.translations.leaveConversationQuestion,
+                      promptText: context.translations.leaveConversationQuestion,
                       affirmativeText: context.translations.leaveLabel,
                       onConfirmation: () async {
                         final userAsMember = channel.state?.members.firstWhere(
-                          (e) =>
-                              e.user?.id ==
-                              StreamChat.of(context).currentUser?.id,
+                          (e) => e.user?.id == StreamChat.of(context).currentUser?.id,
                         );
                         try {
                           await channel.removeMembers([userAsMember!.user!.id]);
@@ -214,8 +209,7 @@ class ChannelPreview extends StatelessWidget {
                     context: context,
                     builder: (_) => ConfirmationDialog(
                       titleText: context.translations.deleteConversationLabel,
-                      promptText:
-                          context.translations.deleteConversationQuestion,
+                      promptText: context.translations.deleteConversationQuestion,
                       affirmativeText: context.translations.deleteLabel,
                       onConfirmation: () async {
                         try {
@@ -245,6 +239,7 @@ class ChannelPreview extends StatelessWidget {
                 StreamChannelAvatar(
                   onTap: onImageTap,
                   channel: channel,
+                  httpHeaders: httpHeaders,
                 ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -261,9 +256,7 @@ class ChannelPreview extends StatelessWidget {
                   comparator: const ListEquality().equals,
                   builder: (context, members) {
                     if (members.isEmpty ||
-                        !members.any((Member e) =>
-                            e.user!.id ==
-                            channel.client.state.currentUser?.id)) {
+                        !members.any((Member e) => e.user!.id == channel.client.state.currentUser?.id)) {
                       return const SizedBox();
                     }
                     return StreamUnreadIndicator(
@@ -280,12 +273,10 @@ class ChannelPreview extends StatelessWidget {
                 sendingIndicator ??
                     Builder(
                       builder: (context) {
-                        final lastMessage =
-                            channel.state?.messages.lastWhereOrNull(
+                        final lastMessage = channel.state?.messages.lastWhereOrNull(
                           (m) => !m.isDeleted && !m.shadowed,
                         );
-                        if (lastMessage?.user?.id ==
-                            streamChatState.currentUser?.id) {
+                        if (lastMessage?.user?.id == streamChatState.currentUser?.id) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 4),
                             child: BetterStreamBuilder<List<Read>>(
@@ -293,15 +284,12 @@ class ChannelPreview extends StatelessWidget {
                               initialData: channel.state?.read,
                               builder: (context, data) {
                                 final readList = data.where((it) =>
-                                    it.user.id !=
-                                        channel.client.state.currentUser?.id &&
-                                    (it.lastRead
-                                            .isAfter(lastMessage!.createdAt) ||
+                                    it.user.id != channel.client.state.currentUser?.id &&
+                                    (it.lastRead.isAfter(lastMessage!.createdAt) ||
                                         it.lastRead.isAtSameMomentAs(
                                           lastMessage.createdAt,
                                         )));
-                                final isMessageRead = readList.length >=
-                                    (channel.memberCount ?? 0) - 1;
+                                final isMessageRead = readList.length >= (channel.memberCount ?? 0) - 1;
                                 return StreamSendingIndicator(
                                   message: lastMessage!,
                                   size: channelPreviewTheme.indicatorIconSize,
@@ -344,13 +332,10 @@ class _Date extends StatelessWidget {
 
         final startOfDay = DateTime(now.year, now.month, now.day);
 
-        if (lastMessageAt.millisecondsSinceEpoch >=
-            startOfDay.millisecondsSinceEpoch) {
+        if (lastMessageAt.millisecondsSinceEpoch >= startOfDay.millisecondsSinceEpoch) {
           stringDate = Jiffy(lastMessageAt.toLocal()).jm;
         } else if (lastMessageAt.millisecondsSinceEpoch >=
-            startOfDay
-                .subtract(const Duration(days: 1))
-                .millisecondsSinceEpoch) {
+            startOfDay.subtract(const Duration(days: 1)).millisecondsSinceEpoch) {
           stringDate = context.translations.yesterdayLabel;
         } else if (startOfDay.difference(lastMessageAt).inDays < 7) {
           stringDate = Jiffy(lastMessageAt.toLocal()).EEEE;
@@ -416,8 +401,7 @@ class _LastMessage extends StatelessWidget {
         stream: channel.state!.messagesStream,
         initialData: channel.state!.messages,
         builder: (context, data) {
-          final lastMessage =
-              data.lastWhereOrNull((m) => !m.shadowed && !m.isDeleted);
+          final lastMessage = data.lastWhereOrNull((m) => !m.shadowed && !m.isDeleted);
           if (lastMessage == null) {
             return const SizedBox();
           }
@@ -432,9 +416,7 @@ class _LastMessage extends StatelessWidget {
               } else if (e.type == 'giphy') {
                 return '[GIF]';
               }
-              return e == lastMessage.attachments.last
-                  ? (e.title ?? 'File')
-                  : '${e.title ?? 'File'} , ';
+              return e == lastMessage.attachments.last ? (e.title ?? 'File') : '${e.title ?? 'File'} , ';
             }),
             lastMessage.text ?? '',
           ];
@@ -449,15 +431,11 @@ class _LastMessage extends StatelessWidget {
               lastMessage.attachments,
               channelPreviewTheme.subtitleStyle?.copyWith(
                 color: channelPreviewTheme.subtitleStyle?.color,
-                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
-                    ? FontStyle.italic
-                    : FontStyle.normal,
+                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted) ? FontStyle.italic : FontStyle.normal,
               ),
               channelPreviewTheme.subtitleStyle?.copyWith(
                 color: channelPreviewTheme.subtitleStyle?.color,
-                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
-                    ? FontStyle.italic
-                    : FontStyle.normal,
+                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted) ? FontStyle.italic : FontStyle.normal,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -480,16 +458,13 @@ class _LastMessage extends StatelessWidget {
     final textList = text.split(' ');
     final resList = <TextSpan>[];
     for (final e in textList) {
-      if (mentions.isNotEmpty &&
-          mentions.any((element) => '@${element.name}' == e)) {
+      if (mentions.isNotEmpty && mentions.any((element) => '@${element.name}' == e)) {
         resList.add(TextSpan(
           text: '$e ',
           style: mentionsTextStyle,
         ));
       } else if (attachments.isNotEmpty &&
-          attachments
-              .where((e) => e.title != null)
-              .any((element) => element.title == e)) {
+          attachments.where((e) => e.title != null).any((element) => element.title == e)) {
         resList.add(TextSpan(
           text: '$e ',
           style: normalTextStyle?.copyWith(fontStyle: FontStyle.italic),

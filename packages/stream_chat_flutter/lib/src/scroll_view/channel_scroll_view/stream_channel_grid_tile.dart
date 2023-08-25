@@ -20,6 +20,7 @@ class StreamChannelGridTile extends StatelessWidget {
     this.footer,
     this.onTap,
     this.onLongPress,
+    this.httpHeaders,
   });
 
   /// The channel to display.
@@ -36,6 +37,9 @@ class StreamChannelGridTile extends StatelessWidget {
 
   /// Called when the user long-presses on this grid tile.
   final GestureLongPressCallback? onLongPress;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   /// Creates a copy of this tile but with the given fields replaced with
   /// the new values.
@@ -68,6 +72,7 @@ class StreamChannelGridTile extends StatelessWidget {
             height: 64,
             width: 64,
           ),
+          httpHeaders: httpHeaders,
         );
 
     final footer = this.footer ??

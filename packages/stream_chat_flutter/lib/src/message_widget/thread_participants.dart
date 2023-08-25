@@ -12,6 +12,7 @@ class ThreadParticipants extends StatelessWidget {
     super.key,
     required StreamChatThemeData streamChatTheme,
     required this.threadParticipants,
+    this.httpHeaders,
   }) : _streamChatTheme = streamChatTheme;
 
   /// {@macro streamChatThemeData}
@@ -19,6 +20,9 @@ class ThreadParticipants extends StatelessWidget {
 
   /// The users participating in the thread.
   final Iterable<User> threadParticipants;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,7 @@ class ThreadParticipants extends StatelessWidget {
               user: user,
               constraints: BoxConstraints.tight(const Size.fromRadius(7)),
               showOnlineStatus: false,
+              httpHeaders: httpHeaders,
             ),
           ),
         );

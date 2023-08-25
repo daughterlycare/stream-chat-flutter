@@ -9,10 +9,14 @@ class ChannelInfoDialog extends StatelessWidget {
   const ChannelInfoDialog({
     super.key,
     required this.channel,
+    this.httpHeaders,
   });
 
   /// The channel to display information about.
   final Channel channel;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +43,7 @@ class ChannelInfoDialog extends StatelessWidget {
             children: [
               StreamChannelInfo(
                 channel: channel,
-                textStyle: StreamChatTheme.of(context)
-                    .channelPreviewTheme
-                    .subtitleStyle,
+                textStyle: StreamChatTheme.of(context).channelPreviewTheme.subtitleStyle,
               ),
             ],
           ),
@@ -60,8 +62,8 @@ class ChannelInfoDialog extends StatelessWidget {
                     maxWidth: 64,
                   ),
                   borderRadius: BorderRadius.circular(32),
-                  onlineIndicatorConstraints:
-                      BoxConstraints.tight(const Size(12, 12)),
+                  onlineIndicatorConstraints: BoxConstraints.tight(const Size(12, 12)),
+                  httpHeaders: httpHeaders,
                 ),
                 const SizedBox(height: 6),
                 Text(

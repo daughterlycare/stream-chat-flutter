@@ -22,6 +22,7 @@ FullScreenMediaWidget getFsm({
   ReplyMessageCallback? onReplyMessage,
   AttachmentActionsBuilder? attachmentActionsModalBuilder,
   bool? autoplayVideos,
+  Map<String, String>? httpHeaders,
 }) {
   return FullScreenMediaDesktop(
     key: key,
@@ -32,6 +33,7 @@ FullScreenMediaWidget getFsm({
     onShowMessage: onShowMessage,
     attachmentActionsModalBuilder: attachmentActionsModalBuilder,
     autoplayVideos: autoplayVideos ?? false,
+    httpHeaders: httpHeaders,
   );
 }
 
@@ -47,6 +49,7 @@ class FullScreenMediaDesktop extends FullScreenMediaWidget {
     this.onReplyMessage,
     this.attachmentActionsModalBuilder,
     this.autoplayVideos = false,
+    this.httpHeaders,
   }) : userName = userName ?? '';
 
   /// The url of the image
@@ -71,6 +74,9 @@ class FullScreenMediaDesktop extends FullScreenMediaWidget {
 
   /// Auto-play videos when page is opened
   final bool autoplayVideos;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   _FullScreenMediaDesktopState createState() => _FullScreenMediaDesktopState();
@@ -110,8 +116,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final containsOnlyVideos =
-        widget.mediaAttachmentPackages.length == videoPackages.length;
+    final containsOnlyVideos = widget.mediaAttachmentPackages.length == videoPackages.length;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -126,8 +131,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
           verticalPadding: 0,
           builder: (_) => [
             DownloadMenuItem(
-              attachment:
-                  widget.mediaAttachmentPackages[_currentPage.value].attachment,
+              attachment: widget.mediaAttachmentPackages[_currentPage.value].attachment,
             ),
           ],
           child: _PlaylistPlayer(
@@ -159,8 +163,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
     return ValueListenableBuilder<int>(
       valueListenable: _currentPage,
       builder: (context, currentPage, child) {
-        final _currentAttachmentPackage =
-            widget.mediaAttachmentPackages[currentPage];
+        final _currentAttachmentPackage = widget.mediaAttachmentPackages[currentPage];
         final _currentMessage = _currentAttachmentPackage.message;
         final _currentAttachment = _currentAttachmentPackage.attachment;
         return Stack(
@@ -193,8 +196,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
                         StreamChannel.of(context).channel,
                       );
                     },
-                    attachmentActionsModalBuilder:
-                        widget.attachmentActionsModalBuilder,
+                    attachmentActionsModalBuilder: widget.attachmentActionsModalBuilder,
                   ),
                 );
               },
@@ -208,9 +210,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
                   return AnimatedPositionedDirectional(
                     duration: kThemeAnimationDuration,
                     curve: Curves.easeInOut,
-                    bottom: isDisplayingDetail
-                        ? 0
-                        : -(bottomPadding + kToolbarHeight),
+                    bottom: isDisplayingDetail ? 0 : -(bottomPadding + kToolbarHeight),
                     start: 0,
                     end: 0,
                     height: bottomPadding + kToolbarHeight,
@@ -227,6 +227,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
                         );
                         Navigator.pop(context);
                       },
+                      httpHeaders: widget.httpHeaders,
                     ),
                   );
                 },
@@ -276,8 +277,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
             }
           },
           onRightArrowKeypress: () {
-            if (_currentPage.value <
-                widget.mediaAttachmentPackages.length - 1) {
+            if (_currentPage.value < widget.mediaAttachmentPackages.length - 1) {
               _currentPage.value++;
               _pageController.nextPage(
                 duration: const Duration(milliseconds: 300),
@@ -291,8 +291,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
             onPageChanged: (val) {
               _currentPage.value = val;
               if (videoPackages.isEmpty) return;
-              final currentAttachment =
-                  widget.mediaAttachmentPackages[val].attachment;
+              final currentAttachment = widget.mediaAttachmentPackages[val].attachment;
               for (final p in videoPackages.values) {
                 if (p.attachment != currentAttachment) {
                   p.player.pause();
@@ -304,20 +303,14 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
               }
             },
             itemBuilder: (context, index) {
-              final currentAttachmentPackage =
-                  widget.mediaAttachmentPackages[index];
+              final currentAttachmentPackage = widget.mediaAttachmentPackages[index];
               final attachment = currentAttachmentPackage.attachment;
               if (attachment.type == 'image' || attachment.type == 'giphy') {
-                final imageUrl = attachment.imageUrl ??
-                    attachment.assetUrl ??
-                    attachment.thumbUrl;
+                final imageUrl = attachment.imageUrl ?? attachment.assetUrl ?? attachment.thumbUrl;
                 return ValueListenableBuilder<bool>(
                   valueListenable: _isDisplayingDetail,
-                  builder: (context, isDisplayingDetail, _) =>
-                      AnimatedContainer(
-                    color: isDisplayingDetail
-                        ? StreamChannelHeaderTheme.of(context).color
-                        : Colors.black,
+                  builder: (context, isDisplayingDetail, _) => AnimatedContainer(
+                    color: isDisplayingDetail ? StreamChannelHeaderTheme.of(context).color : Colors.black,
                     duration: kThemeAnimationDuration,
                     child: ContextMenuArea(
                       verticalPadding: 0,
@@ -327,11 +320,10 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
                         ),
                       ],
                       child: PhotoView(
-                        imageProvider: (imageUrl == null &&
-                                attachment.localUri != null &&
-                                attachment.file?.bytes != null)
-                            ? Image.memory(attachment.file!.bytes!).image
-                            : CachedNetworkImageProvider(imageUrl!),
+                        imageProvider:
+                            (imageUrl == null && attachment.localUri != null && attachment.file?.bytes != null)
+                                ? Image.memory(attachment.file!.bytes!).image
+                                : CachedNetworkImageProvider(imageUrl!),
                         errorBuilder: (_, __, ___) => const AttachmentError(),
                         loadingBuilder: (context, _) {
                           final image = Image.asset(
@@ -339,8 +331,7 @@ class _FullScreenMediaDesktopState extends State<FullScreenMediaDesktop> {
                             fit: BoxFit.cover,
                             package: 'stream_chat_flutter',
                           );
-                          final colorTheme =
-                              StreamChatTheme.of(context).colorTheme;
+                          final colorTheme = StreamChatTheme.of(context).colorTheme;
                           return Shimmer.fromColors(
                             baseColor: colorTheme.disabled,
                             highlightColor: colorTheme.inputBg,
@@ -473,10 +464,7 @@ class DesktopVideoPackage {
     this.showControls = true,
   }) : player = Player(
           id: int.parse(
-            attachment.id.characters
-                .getRange(0, 10)
-                .toString()
-                .replaceAll(RegExp('[^0-9]'), ''),
+            attachment.id.characters.getRange(0, 10).toString().replaceAll(RegExp('[^0-9]'), ''),
           ),
         );
 

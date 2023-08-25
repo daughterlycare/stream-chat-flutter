@@ -52,6 +52,7 @@ class StreamChannelListHeader extends StatelessWidget implements PreferredSizeWi
     this.actions,
     this.backgroundColor,
     this.elevation = 1,
+    this.httpHeaders,
   });
 
   /// Use this if you don't have a [StreamChatClient] in your widget tree.
@@ -95,6 +96,9 @@ class StreamChannelListHeader extends StatelessWidget implements PreferredSizeWi
 
   /// The elevation for this [StreamChannelListHeader].
   final double elevation;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -149,6 +153,7 @@ class StreamChannelListHeader extends StatelessWidget implements PreferredSizeWi
                               },
                           borderRadius: channelListHeaderThemeData.avatarTheme?.borderRadius ?? BorderRadius.zero,
                           constraints: channelListHeaderThemeData.avatarTheme?.constraints,
+                          httpHeaders: httpHeaders,
                         )
                       : const Offstage(),
                 ),

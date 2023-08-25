@@ -12,6 +12,7 @@ class StreamChannelInfoBottomSheet extends StatelessWidget {
     this.onLeaveChannelTap,
     this.onDeleteConversationTap,
     this.onCancelTap,
+    this.httpHeaders,
   }) : assert(
           channel.state != null,
           'Channel ${channel.id} is not initialized',
@@ -38,6 +39,9 @@ class StreamChannelInfoBottomSheet extends StatelessWidget {
 
   /// A callback that is called when the "Cancel" button is tapped.
   final VoidCallback? onCancelTap;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +106,8 @@ class StreamChannelInfoBottomSheet extends StatelessWidget {
                     onlineIndicatorConstraints: BoxConstraints.tight(
                       const Size(12, 12),
                     ),
-                    onTap: onMemberTap != null
-                        ? (_) => onMemberTap!(member)
-                        : null,
+                    onTap: onMemberTap != null ? (_) => onMemberTap!(member) : null,
+                    httpHeaders: httpHeaders,
                   ),
                   const SizedBox(height: 6),
                   Text(

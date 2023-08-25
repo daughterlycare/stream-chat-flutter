@@ -15,6 +15,7 @@ class UserAvatarTransform extends StatelessWidget {
     required this.message,
     this.userAvatarBuilder,
     this.onUserAvatarTap,
+    this.httpHeaders,
   });
 
   /// {@macro translateUserAvatar}
@@ -32,6 +33,9 @@ class UserAvatarTransform extends StatelessWidget {
   /// {@macro onUserAvatarTap}
   final void Function(User)? onUserAvatarTap;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
@@ -46,6 +50,7 @@ class UserAvatarTransform extends StatelessWidget {
             constraints: messageTheme.avatarTheme!.constraints,
             borderRadius: messageTheme.avatarTheme!.borderRadius,
             showOnlineStatus: false,
+            httpHeaders: httpHeaders,
           ),
     );
   }

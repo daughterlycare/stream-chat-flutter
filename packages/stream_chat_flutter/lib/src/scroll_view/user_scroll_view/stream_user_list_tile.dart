@@ -25,6 +25,7 @@ class StreamUserListTile extends StatelessWidget {
     this.tileColor,
     this.visualDensity = VisualDensity.compact,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 8),
+    this.httpHeaders,
   });
 
   /// The user to display.
@@ -90,6 +91,9 @@ class StreamUserListTile extends StatelessWidget {
   /// If null, `EdgeInsets.symmetric(horizontal: 16.0)` is used.
   final EdgeInsetsGeometry contentPadding;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   /// Creates a copy of this tile but with the given fields replaced with
   /// the new values.
   StreamUserListTile copyWith({
@@ -132,6 +136,7 @@ class StreamUserListTile extends StatelessWidget {
             height: 40,
             width: 40,
           ),
+          httpHeaders: httpHeaders,
         );
 
     final title = this.title ??

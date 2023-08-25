@@ -20,6 +20,7 @@ class DesktopReactionsBuilder extends StatefulWidget {
     required this.messageTheme,
     this.borderSide,
     required this.reverse,
+    this.httpHeaders,
   });
 
   /// Whether reactions should be shown.
@@ -40,9 +41,11 @@ class DesktopReactionsBuilder extends StatefulWidget {
   /// {@macro reverse}
   final bool reverse;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
-  State<DesktopReactionsBuilder> createState() =>
-      _DesktopReactionsBuilderState();
+  State<DesktopReactionsBuilder> createState() => _DesktopReactionsBuilderState();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -82,14 +85,12 @@ class _DesktopReactionsBuilderState extends State<DesktopReactionsBuilder> {
     var reactionsList = <Reaction>[];
     if (widget.shouldShowReactions) {
       widget.message.latestReactions?.forEach((element) {
-        if (!reactionsMap.containsKey(element.type) ||
-            element.user!.id == streamChat.currentUser?.id) {
+        if (!reactionsMap.containsKey(element.type) || element.user!.id == streamChat.currentUser?.id) {
           reactionsMap[element.type] = element;
         }
       });
 
-      reactionsList = reactionsMap.values.toList()
-        ..sort((a, b) => a.user!.id == streamChat.currentUser?.id ? 1 : -1);
+      reactionsList = reactionsMap.values.toList()..sort((a, b) => a.user!.id == streamChat.currentUser?.id ? 1 : -1);
     }
 
     return PortalTarget(
@@ -144,6 +145,7 @@ class _DesktopReactionsBuilderState extends State<DesktopReactionsBuilder> {
                             reaction: reaction,
                             streamChatTheme: streamChatTheme,
                             reactionIcon: reactionIcon,
+                            httpHeaders: widget.httpHeaders,
                           );
                         }).toList(),
                       ],
@@ -219,8 +221,7 @@ class _BottomReaction extends StatelessWidget {
                 message,
                 reactionIcon!.type,
                 score: reaction.score + 1,
-                enforceUnique:
-                    StreamChatConfiguration.of(context).enforceUniqueReactions,
+                enforceUnique: StreamChatConfiguration.of(context).enforceUniqueReactions,
               );
         }
       },
@@ -254,8 +255,7 @@ class _BottomReaction extends StatelessWidget {
                       size: 16,
                       color: reaction.user?.id == userId
                           ? streamChatTheme.colorTheme.accentPrimary
-                          : streamChatTheme.colorTheme.textHighEmphasis
-                              .withOpacity(0.5),
+                          : streamChatTheme.colorTheme.textHighEmphasis.withOpacity(0.5),
                     ),
               ),
               const SizedBox(width: 4),
@@ -286,11 +286,15 @@ class _StackedReaction extends StatelessWidget {
     required this.reaction,
     required this.streamChatTheme,
     required this.reactionIcon,
+    this.httpHeaders,
   });
 
   final Reaction reaction;
   final StreamChatThemeData streamChatTheme;
   final StreamReactionIcon? reactionIcon;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   @override
   Widget build(BuildContext context) {
@@ -308,6 +312,7 @@ class _StackedReaction extends StatelessWidget {
                   width: 64,
                 ),
                 borderRadius: BorderRadius.circular(32),
+                httpHeaders: httpHeaders,
               ),
               Positioned(
                 bottom: 0,
@@ -333,8 +338,7 @@ class _StackedReaction extends StatelessWidget {
                           size: 16,
                           color: reaction.user?.id == userId
                               ? streamChatTheme.colorTheme.accentPrimary
-                              : streamChatTheme.colorTheme.textHighEmphasis
-                                  .withOpacity(0.5),
+                              : streamChatTheme.colorTheme.textHighEmphasis.withOpacity(0.5),
                         ),
                   ),
                 ),

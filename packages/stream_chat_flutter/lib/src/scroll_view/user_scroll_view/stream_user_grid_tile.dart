@@ -19,6 +19,7 @@ class StreamUserGridTile extends StatelessWidget {
     this.footer,
     this.onTap,
     this.onLongPress,
+    this.httpHeaders,
   });
 
   /// The user to display.
@@ -35,6 +36,9 @@ class StreamUserGridTile extends StatelessWidget {
 
   /// Called when the user long-presses on this grid tile.
   final GestureLongPressCallback? onLongPress;
+
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
 
   /// Creates a copy of this tile but with the given fields replaced with
   /// the new values.
@@ -69,6 +73,7 @@ class StreamUserGridTile extends StatelessWidget {
             height: 12,
             width: 12,
           ),
+          httpHeaders: httpHeaders,
         );
 
     final footer = this.footer ??

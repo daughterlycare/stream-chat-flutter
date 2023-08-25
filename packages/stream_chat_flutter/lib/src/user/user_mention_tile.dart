@@ -16,6 +16,7 @@ class StreamUserMentionTile extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.httpHeaders,
   });
 
   /// User to display in the tile
@@ -33,6 +34,9 @@ class StreamUserMentionTile extends StatelessWidget {
   /// Widget at the end of tile
   final Widget? trailing;
 
+  /// HTTP headers
+  final Map<String, String>? httpHeaders;
+
   @override
   Widget build(BuildContext context) {
     final chatThemeData = StreamChatTheme.of(context);
@@ -47,6 +51,7 @@ class StreamUserMentionTile extends StatelessWidget {
               StreamUserAvatar(
                 user: user,
                 constraints: BoxConstraints.tight(const Size(40, 40)),
+                httpHeaders: httpHeaders,
               ),
           const SizedBox(width: 8),
           Expanded(

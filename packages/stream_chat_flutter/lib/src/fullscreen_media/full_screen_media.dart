@@ -207,6 +207,7 @@ class _FullScreenMediaState extends State<StreamFullScreenMedia> {
                           );
                           Navigator.pop(context);
                         },
+                        httpHeaders: widget.httpHeaders,
                       ),
                     );
                   },
