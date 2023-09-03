@@ -41,8 +41,10 @@ class StreamMessageText extends StatelessWidget {
             .replaceMentions()
             .text
             ?.replaceAll('\n', '\n\n');
+
         final themeData = Theme.of(context);
         return MarkdownBody(
+          softLineBreak: true,
           data: messageText ?? '',
           selectable: isDesktopDeviceOrWeb,
           onTapLink: (
