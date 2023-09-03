@@ -36,11 +36,7 @@ class StreamMessageText extends StatelessWidget {
       stream: streamChat.currentUserStream.map((it) => it!.language ?? 'en'),
       initialData: streamChat.currentUser!.language ?? 'en',
       builder: (context, language) {
-        final messageText = message
-            .translate(language)
-            .replaceMentions()
-            .text
-            ?.replaceAll('\n', '\n\n');
+        final messageText = message.translate(language).replaceMentions().text;
 
         final themeData = Theme.of(context);
         return MarkdownBody(
